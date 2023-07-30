@@ -1,7 +1,43 @@
-import { useState } from 'react'
+import { FC, useState } from 'react'
+import Countdown, { zeroPad } from 'react-countdown'
+type Props = {
+	setIsStartBreak: (p: boolean) => void
+}
+const Completionist: FC<Props> = ({ setIsStartBreak }) => {
+	return (
+		<button
+			className='border-4 px-4 py-2 my-2 rounded-md border-black hover:bg-black hover:text-white transition-all duration-300'
+			onClick={() => setIsStartBreak(true)}
+		>
+			Start break
+		</button>
+	)
+}
 export const App = () => {
-	const [from, setFrom] = useState<string | null>('11:00')
-	const [to, setTo] = useState<string | null>('11:30')
+	const renderer = ({
+		minutes,
+		seconds,
+		completed,
+	}: {
+		minutes: number
+		seconds: number
+		completed: boolean
+	}) => {
+		if (completed) {
+			return <Completionist setIsStartBreak={setIsStartBreak} />
+		} else {
+			return minutes >= 10 ? (
+				<span className='text-green-700 text-6xl'>
+					{zeroPad(minutes)}:{zeroPad(seconds)}
+				</span>
+			) : (
+				<span className='text-red-700 text-6xl'>
+					{zeroPad(minutes)}:{zeroPad(seconds)}
+				</span>
+			)
+		}
+	}
+	const [isStartBreak, setIsStartBreak] = useState(false)
 	return (
 		<div className="italic bg-[url('./assets/bg.jpg')] h-screen bg-cover flex justify-start items-center">
 			<div className='ml-10  border-4 rounded-2xl p-10 bg-white/50  '>
@@ -9,14 +45,17 @@ export const App = () => {
 					We have a coffee break
 				</h1>
 				<div className='text-black/90 text-3xl font-bold'>
-					<h2
-						onClick={() => setFrom(prompt('Enter time from:', '11:00') || from)}
-					>
-						From: <span>{from}</span>
-					</h2>
-					<h2 onClick={() => setTo(prompt('Enter time to:', '11:30') || to)}>
-						To: <span>{to}</span>
-					</h2>
+					{!isStartBreak && <Completionist setIsStartBreak={setIsStartBreak} />}
+					{isStartBreak && (
+						<Countdown
+							// date={Date.now() + 1800000}
+							date={Date.now() + 650000}
+							precision={3}
+							renderer={renderer}
+						>
+							<h1>Go ahead!!</h1>
+						</Countdown>
+					)}
 				</div>
 			</div>
 		</div>
