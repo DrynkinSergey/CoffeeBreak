@@ -38,16 +38,12 @@ export const App = () => {
         <video autoPlay muted loop className='absolute inset-0 w-full h-full object-cover'>
           <source src='/bg.mp4' type='video/mp4' />
         </video>
-        <div className='absolute top-[28%] left-[20%] z-10'>
-          <div className='ml-10  border-3 rounded-2xl p-10 backdrop-blur-sm bg-white/10  '>
-            <h1
-              onClick={() => setTime(prompt('Enter time:') ?? '30')}
-              className='glitch-text text-black text-2xl font-bold'
-              data-text='We have a coffee break'
-            >
-              We have a coffee break
+        <div className='absolute top-[28%] left-[20%] z-10 '>
+          <div className='ml-10  border-4 rounded-2xl p-10 backdrop-blur-sm bg-white/10 border-orange-900 shadow-orange-800 shadow-lg  '>
+            <h1 onClick={() => setTime(prompt('Enter time:') ?? '30')} className='glitch-text text-white text-2xl font-bold' data-text='Coffee time'>
+              Coffee time
             </h1>
-            <div className='text-black/90 text-1xl font-bold'>
+            <div className='text-white/90 text-1xl font-bold'>
               {!isStartBreak && <Completionist setIsStartBreak={setIsStartBreak} />}
               {isStartBreak && (
                 <Countdown date={Date.now() + +time * 60 * 1000} precision={3} renderer={renderer}>
